@@ -9,6 +9,9 @@ import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -35,7 +38,7 @@ public class UserService implements UserServiceInt {
     @Override
     public void deleteUserById(String userId) {
         User user = mongoTemplate.findById(userId, User.class, COLLECTION_NAME);
-        deleteUser(user);
+        mongoTemplate.remove(user);
     }
 
     @Override
@@ -61,6 +64,13 @@ public class UserService implements UserServiceInt {
         ReCaptchaResponse reCaptchaResponse = this.reCaptcha.checkAnswer(remoteAddress, captchaPair.getRecaptcha_challenge_field(), captchaPair.getRecaptcha_response_field());
         return reCaptchaResponse.isValid();
 
+    }
+    @Override
+    public void deleteAllUsers(){
+        Query query=new Query();
+        query.addCriteria(Criteria.where("id").is("1"));
+        
+        mongoTemplate.remove(query, COLLECTION_NAME);
     }
 
 }

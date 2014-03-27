@@ -13,8 +13,9 @@ import java.util.List;
  *
  * @author abc
  */
+
 public interface UserServiceInt {
-    String COLLECTION_NAME = "";
+    String COLLECTION_NAME = "user";
 
     void addUser(User user);
 
@@ -27,5 +28,6 @@ public interface UserServiceInt {
     void updateUser(User user);
 
     void updateUserById(String userId);
+    void deleteAllUsers();
     
 }

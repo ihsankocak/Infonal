@@ -1,0 +1,1 @@
+This simple project is about user management.In this project Apache Tomcat 8.0.3.0 and MongoDB 2.4.9.This project is dedicated to Infonal Software Devleopers.

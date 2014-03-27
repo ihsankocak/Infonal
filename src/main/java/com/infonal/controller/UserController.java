@@ -2,6 +2,7 @@ package com.infonal.controller;
 
 import com.infonal.model.User;
 import com.infonal.service.UserService;
+import com.infonal.service.interfaces.UserServiceInt;
 import com.octo.captcha.module.servlet.image.SimpleImageCaptchaServlet;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.view.RedirectView;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceInt userService;
 
     @RequestMapping(value = {"/", "/user"}, method = RequestMethod.GET)
     public String getUserList(ModelMap model) {
@@ -72,9 +73,12 @@ public class UserController {
       // System.out.println(captchaPair.getRecaptcha_response_field()+" -fsdfdsfsdfdfs "+captchaPair.getRecaptcha_challenge_field()+"qqqqqqq"+remoteAddress);
         //  return userService.isCaptchaValid(remoteAddress, captchaPair);
         String userCaptchaResponse = request.getParameter("jcaptcha");
-        System.out.println("ahabu response:" + userCaptchaResponse);
+       
         boolean captchaPassed = SimpleImageCaptchaServlet.validateResponse(request, userCaptchaResponse);
         return captchaPassed;
 
+    }
+    public void deleteAllUsers(){
+        userService.deleteAllUsers();
     }
 }
