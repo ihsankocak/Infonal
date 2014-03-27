@@ -1,5 +1,6 @@
 package com.infonal.service;
 
+import com.infonal.service.interfaces.UserServiceInt;
 import com.infonal.model.CaptchaPair;
 import com.infonal.model.User;
 import java.util.List;
@@ -11,13 +12,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserService {
+public class UserService implements UserServiceInt {
 
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public static final String COLLECTION_NAME = "user";
 
+    @Override
     public void addUser(User user) {
         if (!mongoTemplate.collectionExists(User.class)) {
             mongoTemplate.createCollection(User.class);
@@ -26,23 +27,28 @@ public class UserService {
         mongoTemplate.insert(user, COLLECTION_NAME);
     }
 
+    @Override
     public List<User> listUser() {
         return mongoTemplate.findAll(User.class, COLLECTION_NAME);
     }
 
+    @Override
     public void deleteUserById(String userId) {
         User user = mongoTemplate.findById(userId, User.class, COLLECTION_NAME);
         deleteUser(user);
     }
 
+    @Override
     public void deleteUser(User user) {
         mongoTemplate.remove(user, COLLECTION_NAME);
     }
 
+    @Override
     public void updateUser(User user) {
         mongoTemplate.insert(user, COLLECTION_NAME);
     }
 
+    @Override
     public void updateUserById(String userId) {
         User user = mongoTemplate.findById(userId, User.class, COLLECTION_NAME);
         updateUser(user);
